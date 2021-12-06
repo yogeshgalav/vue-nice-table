@@ -12,6 +12,7 @@ npm install
     :columns="columns_array"
     :rows="rows_array"
     :footer="footer_object"
+    :stripe="false"
  />
 ```
 ### Props data type 
@@ -81,8 +82,27 @@ data() {
             <span v-else>{{ props.row[props.column.field] }}</span>
         </span>
     </template>
+    <template slot="emptystate">
+        No data present.
+    </template>
 </vue-table-component>
 ```
 
+### Use Api to sort table
+```
+<vue-table-component
+    :columns="columns"
+    :rows="rows"
+    :sort-by-api="true"
+    @sort="sortFunction('custom_argument',...arguments)"
+>
+
+</vue-table-component>
+```
+```
+sortSessions(custom_argument,sortBy,sortType){
+    Call your api to sort
+}
+```
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
