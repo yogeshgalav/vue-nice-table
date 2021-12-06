@@ -1,8 +1,10 @@
 {
   "name": "vue-nice-table",
   "version": "0.1.0",
+  "homepage": "https://github.com/yogeshgalav/vue-nice-table",
   "description": "Light weight and good looking vue table component.",
-  "author": "Yogesh Galav",
+  "keywords": ["vue table", "stripe", "api sorting", "multi line legend", "light weight"],
+  "author": "Yogesh Galav <mr.yogesh.galav@gmail.com> (https://github.com/yogeshgalav/)",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
