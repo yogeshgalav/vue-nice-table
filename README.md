@@ -1,4 +1,4 @@
-# vue-nice-table
+# Vue Nice Table
 
 ## Project setup
 ```
