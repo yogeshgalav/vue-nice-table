@@ -1,29 +1,32 @@
 module.exports = {
 	root: true,
-	env: {
-	  node: true,
+	parser: 'vue-eslint-parser',
+	parserOptions: {
+		project: './tsconfig.json',
+	  ecmaVersion: 'latest',
+	  sourceType: 'module',
+	  parser: {
+			js: 'espree', // Script parser for <script>
+			ts: '@typescript-eslint/parser', // Script parser for <script lang="ts">
+	  },
 	},
 	extends: [
 	  'eslint:recommended',
-	  'plugin:@typescript-eslint/recommended',
 	  'plugin:vue/vue3-recommended',
+	  '@vue/eslint-config-typescript',
+	  'plugin:@typescript-eslint/recommended',
+	  'plugin:@typescript-eslint/recommended-requiring-type-checking',
+	  'plugin:prettier/recommended',
 	],
-	parser: 'vue-eslint-parser',
-	parserOptions: {
-	  parser: '@typescript-eslint/parser',
-	  ecmaVersion: 2020,
-	  sourceType: 'module',
-	  project: './tsconfig.json',
-	  createDefaultProgram: true,
+	plugins: ['@typescript-eslint'],
+	settings: {
+	  'import/resolver': {
+			typescript: true,
+			node: true,
+	  },
 	},
-	plugins: [
-	  '@typescript-eslint',
-	],
 	rules: {
-		"indent": ["error", "tab"],
-		'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-		'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-		"@typescript-eslint/no-explicit-any": "off"
+		'@typescript-eslint/no-explicit-any': 'off',
+		'@typescript-eslint/no-unsafe-member-access':'off',
 	},
-  };
-  
+};
