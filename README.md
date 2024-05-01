@@ -23,20 +23,19 @@ Vue nice table is light weight table componet based on bootstrap-vue table. it's
 |    Prop    |    Type    |    Default    |    Description    |       
 |------------|:----------:|:-------------:|------------------:|
 |    sortBY    |    String    |    ""    |        |       
-|    sortDesc   |    Boolean    |   true   |    Description    |       
-|    sortable    |   Boolean    |    false    |    Description    |       
-|    responsive    |    [String, Boolean]    |   ""   |    Description    |       
-|    busy    |    Boolean   |    false    |    Description    |       
-|    headVariant   |    Boolean    |    false    |    Description    |       
-|    hover   |    Boolean    |    false    |    Description    |       
-|    striped   |    Boolean    |    false    |    Description    |       
-|    bordered    |    Boolean    |    false    |    Description    |       
-|    small    |    Boolean    |    false    |    Description    |       
-|    fields   |    Array as PropType<TField[]>    |    () => []    |    Description    |       
-|    items    |    Array as PropType<Array<Record<string, any>>>    |     () => []    |    Description    |       
-|    perPage    |    Number    |    10    |    Description    |       
-|        |    Type    |    Default    |    Description    |       
-|     
+|    sortDesc   |    Boolean    |   true   |       |       
+|    sortable    |   Boolean    |    false    |       |       
+|    responsive    |    [String, Boolean]    |   ""   |       |       
+|    busy    |    Boolean   |    false    |       |       
+|    headVariant   |    Boolean    |    false    |       |       
+|    hover   |    Boolean    |    false    |       |       
+|    striped   |    Boolean    |    false    |       |       
+|    bordered    |    Boolean    |    false    |       |       
+|    small    |    Boolean    |    false    |       |       
+|    fields   |    Array as PropType<TField[]>    |    []    |       |       
+|    items    |    Array as PropType<Array<Record<string, any>>>    |     []    |       |       
+|    perPage    |    Number    |    10    |       |       
+   
 
 
 
