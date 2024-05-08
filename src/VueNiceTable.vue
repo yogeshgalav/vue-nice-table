@@ -43,7 +43,7 @@
 					@click="rowClicked($event, item)"
 				>
 					<td
-						v-for="field in fields"
+						v-for="field in tableFields"
 						:key="field.key"
 						:class="field.class"
 					>
@@ -51,28 +51,12 @@
 							:name="'cell_' + field.key"
 							:item="item"
 							:index="item_key"
-							:value="
-								field.formatter
-									? field.formatter(
-											item[field.key],
-											field.key,
-											item,
-										)
-									: item[field.key]
-							"
+							:value="getFomattedFieldValue(field, item)"
 							:unformatted="item[field.key]"
 							:field="field"
 							:row-selected="false"
 						>
-							{{
-								field.formatter
-									? field.formatter(
-											item[field.key],
-											field.key,
-											item,
-										)
-									: item[field.key]
-							}}
+							{{ getFomattedFieldValue(field, item) }}
 						</slot>
 					</td>
 				</tr>
@@ -90,6 +74,7 @@ type TField = {
 	sortable?: boolean;
 	formatter?: (cellItem: any, fieldKey: string, rowItem: any) => any;
 };
+type TItem = Record<string, any>;
 let props = defineProps({
 	sortBy: {
 		type: String,
@@ -136,7 +121,7 @@ let props = defineProps({
 		default: () => [],
 	},
 	items: {
-		type: Array as PropType<Array<Record<string, any>>>,
+		type: Array as PropType<TItem[]>,
 		default: () => [],
 	},
 	perPage: {
@@ -188,9 +173,11 @@ let tableItems = computed(() => {
 
 	return sortItems();
 });
+
 function sortItems() {
 	return props.items;
 }
+
 let tableFields = computed(() => {
 	if (!props.fields.length && props.items[0]) {
 		return Object.keys(props.items[0]).map((el) => {
@@ -203,6 +190,17 @@ let tableFields = computed(() => {
 	}
 	return props.fields;
 });
+
+function getFomattedFieldValue(field: TField, item: TItem): any {
+	if (field.formatter && typeof field.formatter == "function") {
+		return field.formatter(item[field.key], field.key, item);
+	}
+	if (field.key.includes(".")) {
+		// eslint-disable-next-line @typescript-eslint/no-implied-eval
+		return Function("return item." + field.key)();
+	}
+	return item[field.key];
+}
 let tableResponsiveClass = computed<string>(() => {
 	let class_str = "";
 	if (!props.responsive) {
