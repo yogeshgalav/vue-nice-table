@@ -11,18 +11,17 @@
   ],
   "author": "Yogesh Galav <mr.yogesh.galav@gmail.com> (https://github.com/yogeshgalav/)",
   "private": false,
-  "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/vue-nice-table.umd.cjs",
-  "module": "./dist/vue-nice-table.js",
-  "types": "./dist/types.d.ts",
+  "main": "./dist/vue-nice-table.umd.js",
+  "module": "./dist/vue-nice-table.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     "./style.css": "./dist/style.css",
     ".": {
-      "import": "./dist/vue-nice-table.js",
-      "require": "./dist/vue-nice-table.umd.cjs"
+      "import": "./dist/vue-nice-table.mjs",
+      "require": "./dist/vue-nice-table.umd.js"
     }
   },
   "scripts": {

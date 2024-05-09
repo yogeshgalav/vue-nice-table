@@ -138,17 +138,16 @@ let emits = defineEmits([
 	"rowClicked",
 ]);
 
-type TAriaSort = "none" | "desc" | "asc" | null;
+type TAriaSort = "none" | "other" | "ascending" | "descending" | undefined;
 // Record<string, TAriaSort>
 let ariaSort = computed<Record<string, TAriaSort>>(() => {
 	return props.fields.reduce(
 		(result: Record<string, TAriaSort>, field: any) => {
-			let aria_sort: TAriaSort = "none";
-			if (!field.sortable) {
-				aria_sort = null;
-			}
-			if (field.key == props.sortBy) {
-				aria_sort = props.sortDesc ? "desc" : "asc";
+			let aria_sort: TAriaSort;
+			if (field.sortable && field.key == props.sortBy) {
+				aria_sort = props.sortDesc ? "descending" : "ascending";
+			} else if (field.sortable) {
+				aria_sort = "none";
 			}
 			result[field.key] = aria_sort;
 			return result;
@@ -178,7 +177,7 @@ function sortItems() {
 	return props.items;
 }
 
-let tableFields = computed(() => {
+let tableFields = computed<TField[]>(() => {
 	if (!props.fields.length && props.items[0]) {
 		return Object.keys(props.items[0]).map((el) => {
 			return {
@@ -227,13 +226,15 @@ let tableResponsiveClass = computed<string>(() => {
 });
 
 function sortTable(key: string) {
-	if (ariaSort.value[key] == null) {
+	if (typeof ariaSort.value[key] === "undefined") {
 		return false;
 	}
 	let sort_by = key;
-	let sort_desc = ["none", "asc"].includes(ariaSort.value[key])
-		? true
-		: false;
+	let sort_desc =
+		ariaSort.value[key] == "none" || ariaSort.value[key] == "ascending"
+			? true
+			: false;
+
 	emits("sortChanged", sort_by, sort_desc);
 	emits("update:sortBy", sort_by);
 	emits("update:sortDesc", sort_desc);
