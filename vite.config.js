@@ -14,7 +14,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'VueNiceValidate'
+      name: 'VueNiceTable',
+	  fileName: 'vue-nice-table'
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled

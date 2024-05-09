@@ -1,4 +1,6 @@
 {
+	"outDir": "dist",
+    "declaration": true,
 	"compilerOptions": {
 	  "target": "esnext",
 	  "module": "esnext",
