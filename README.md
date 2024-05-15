@@ -21,7 +21,7 @@ Vue nice table is light weight table componet based on bootstrap-vue table. it's
 ## Probs
 
 |    Prop    |    Type    |    Default    |    Description    |       
-|------------|:----------:|:-------------:|------------------:|
+|------------|:----------:|:-------------:|:------------------|
 |    sortBY     |    String     |    ""       |   The current column key being sorted, or an empty string if not sorting     |       
 |    sortDesc   |    Boolean    |   true      |   The current sort direction (true for descending, false for ascending)    |       
 |    responsive |[String, Boolean]|   ""      |   Makes the table responsive in width, adding a horizontal scrollbar. Set to true for always responsive or set to one of the breakpoints to switch from responsive to normal: 'sm', 'md', 'lg', 'xl'    |       
@@ -43,7 +43,7 @@ Vue nice table is light weight table componet based on bootstrap-vue table. it's
 |---------------|----------------|--------------|
 |      key      |      string    |  The key for selecting data from the record in the items array. Required when setting the fields via an array of objects. The key is also used for generating the custom data rendering and custom header and footer slot names. |
 |      label    |      string    |Appears in the columns table header (and footer if foot-clone is set). Defaults to the field's key (in humanized format) if not provided. It's possible to use empty labels by assigning an empty string "" but be sure you also set headerTitle to provide non-sighted users a hint about the column contents.|
-|      class    |      string    | Class name (or array of class names) to add to <th> and <td> in the column.  |
+|      class    |      string    | Class name (or array of class names) to add to `<th>` and `<td>` in the column.  |
 |    sortable   |   Boolean      |   Enable sorting on this column. Refer to the Sorting Section for more details.    |       
 |     formatter |     (cellItem: any, fieldKey: string, rowItem: any) => any        |  A formatter callback function or name of a method in your component, can be used instead of (or in conjunction with) scoped field slots. The formatter will be called with the syntax formatter(value, key, item). Refer to Custom Data Rendering for more details. |
 
