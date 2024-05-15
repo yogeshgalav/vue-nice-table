@@ -43,7 +43,7 @@
 					@click="rowClicked($event, item)"
 				>
 					<td
-						v-for="field in fields"
+						v-for="field in tableFields"
 						:key="field.key"
 						:class="field.class"
 					>
@@ -51,28 +51,12 @@
 							:name="'cell_' + field.key"
 							:item="item"
 							:index="item_key"
-							:value="
-								field.formatter
-									? field.formatter(
-											item[field.key],
-											field.key,
-											item,
-										)
-									: item[field.key]
-							"
+							:value="getFomattedFieldValue(field, item)"
 							:unformatted="item[field.key]"
 							:field="field"
 							:row-selected="false"
 						>
-							{{
-								field.formatter
-									? field.formatter(
-											item[field.key],
-											field.key,
-											item,
-										)
-									: item[field.key]
-							}}
+							{{ getFomattedFieldValue(field, item) }}
 						</slot>
 					</td>
 				</tr>
@@ -90,6 +74,7 @@ type TField = {
 	sortable?: boolean;
 	formatter?: (cellItem: any, fieldKey: string, rowItem: any) => any;
 };
+type TItem = Record<string, any>;
 let props = defineProps({
 	sortBy: {
 		type: String,
@@ -136,7 +121,7 @@ let props = defineProps({
 		default: () => [],
 	},
 	items: {
-		type: Array as PropType<Array<Record<string, any>>>,
+		type: Array as PropType<TItem[]>,
 		default: () => [],
 	},
 	perPage: {
@@ -153,17 +138,16 @@ let emits = defineEmits([
 	"rowClicked",
 ]);
 
-type TAriaSort = "none" | "desc" | "asc" | null;
+type TAriaSort = "none" | "other" | "ascending" | "descending" | undefined;
 // Record<string, TAriaSort>
 let ariaSort = computed<Record<string, TAriaSort>>(() => {
 	return props.fields.reduce(
 		(result: Record<string, TAriaSort>, field: any) => {
-			let aria_sort: TAriaSort = "none";
-			if (!field.sortable) {
-				aria_sort = null;
-			}
-			if (field.key == props.sortBy) {
-				aria_sort = props.sortDesc ? "desc" : "asc";
+			let aria_sort: TAriaSort;
+			if (field.sortable && field.key == props.sortBy) {
+				aria_sort = props.sortDesc ? "descending" : "ascending";
+			} else if (field.sortable) {
+				aria_sort = "none";
 			}
 			result[field.key] = aria_sort;
 			return result;
@@ -188,10 +172,12 @@ let tableItems = computed(() => {
 
 	return sortItems();
 });
+
 function sortItems() {
 	return props.items;
 }
-let tableFields = computed(() => {
+
+let tableFields = computed<TField[]>(() => {
 	if (!props.fields.length && props.items[0]) {
 		return Object.keys(props.items[0]).map((el) => {
 			return {
@@ -203,6 +189,17 @@ let tableFields = computed(() => {
 	}
 	return props.fields;
 });
+
+function getFomattedFieldValue(field: TField, item: TItem): any {
+	if (field.formatter && typeof field.formatter == "function") {
+		return field.formatter(item[field.key], field.key, item);
+	}
+	if (field.key.includes(".")) {
+		// eslint-disable-next-line @typescript-eslint/no-implied-eval
+		return Function("return item." + field.key)();
+	}
+	return item[field.key];
+}
 let tableResponsiveClass = computed<string>(() => {
 	let class_str = "";
 	if (!props.responsive) {
@@ -229,13 +226,15 @@ let tableResponsiveClass = computed<string>(() => {
 });
 
 function sortTable(key: string) {
-	if (ariaSort.value[key] == null) {
+	if (typeof ariaSort.value[key] === "undefined") {
 		return false;
 	}
 	let sort_by = key;
-	let sort_desc = ["none", "asc"].includes(ariaSort.value[key])
-		? true
-		: false;
+	let sort_desc =
+		ariaSort.value[key] == "none" || ariaSort.value[key] == "ascending"
+			? true
+			: false;
+
 	emits("sortChanged", sort_by, sort_desc);
 	emits("update:sortBy", sort_by);
 	emits("update:sortDesc", sort_desc);

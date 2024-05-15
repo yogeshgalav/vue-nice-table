@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-const path = require("path");
+import path from 'path';
 import vue from '@vitejs/plugin-vue';
 // import { createVuePlugin as vue } from "vite-plugin-vue2";
 
@@ -14,7 +14,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'VueNiceValidate'
+      name: 'VueNiceTable',
+	  fileName: 'vue-nice-table'
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
